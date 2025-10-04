@@ -442,20 +442,6 @@ const generateHTMLTemplate = (rapport) => {
                     </ul>
                 </div>
             </div>
-
-            <!-- Footer -->
-            <div class="footer">
-                <div class="footer-content">
-                    <div>
-                        <div class="responsible-name">${rapport.responsable.nom}</div>
-                        <div class="responsible-title">${rapport.responsable.titre}</div>
-                    </div>
-                    <div class="org-footer">
-                        ${rapport.dahira}<br>
-                        Rapport officiel • ${getPeriodeDisplay(rapport.periode)}
-                    </div>
-                </div>
-            </div>
         </div>
     </body>
     </html>
@@ -807,6 +793,11 @@ const getCSSTemplate = () => {
         color: white;
     }
 
+    thead th {
+        position: sticky;
+        top: 0;
+    }
+
     th {
         padding: 15px;
         text-align: left;
@@ -826,6 +817,12 @@ const getCSSTemplate = () => {
 
     tbody tr:hover {
         background: #e9ecef;
+    }
+
+    /* Éviter les coupures dans les lignes du tableau */
+    tbody tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
     }
 
     .khassaida-name {
@@ -915,6 +912,8 @@ const getCSSTemplate = () => {
     /* Appréciation */
     .appreciation-section {
         padding: 0 40px 40px;
+        break-inside: avoid;
+        page-break-inside: avoid;
     }
 
     .appreciation-box {
@@ -942,6 +941,8 @@ const getCSSTemplate = () => {
         margin-bottom: 15px;
         border-radius: 8px;
         border-left: 3px solid #006633;
+        break-inside: avoid;
+        page-break-inside: avoid;
     }
 
     .khassaida-comment h4 {
@@ -976,6 +977,8 @@ const getCSSTemplate = () => {
     /* Programme */
     .program-section {
         padding: 0 40px 40px;
+        break-inside: avoid;
+        page-break-inside: avoid;
     }
 
     .program-box {
@@ -1014,6 +1017,7 @@ const getCSSTemplate = () => {
         color: white;
         padding: 30px 40px;
         text-align: center;
+        margin-top: auto;
     }
 
     .footer-content {
@@ -1046,6 +1050,22 @@ const getCSSTemplate = () => {
         }
         .container {
             box-shadow: none;
+        }
+        
+        /* Gestion intelligente des sauts de page */
+        .header, .info-section, .stats-section {
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+        
+        /* Pour les tableaux : répéter l'en-tête sur chaque page */
+        thead {
+            display: table-header-group;
+        }
+        
+        tbody tr {
+            break-inside: avoid;
+            page-break-inside: avoid;
         }
     }
   `;
