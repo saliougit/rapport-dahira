@@ -348,6 +348,7 @@ export const exportToPDF = (rapport) => {
     html2canvas: { 
       scale: 2,
       useCORS: true,
+      allowTaint: true,
       logging: false
     },
     jsPDF: { 
@@ -475,11 +476,15 @@ const formatDate = (dateString) => {
 };
 
 const generateLogo = (rapport) => {
-  if (rapport.logoType === 'image' && rapport.logoImage) {
-    return `<div class="logo"><img src="${rapport.logoImage}" alt="Logo Dahira" style="width: 100%; height: 100%; object-fit: contain;" /></div>`;
-  } else {
-    return `<div class="logo">${rapport.logo || 'DMN'}</div>`;
-  }
+  return `<div style="width: 70px; height: 70px; background: white; border-radius: 50%; display: table; margin: 0 auto 20px auto;">
+    <span style="display: table-cell; vertical-align: middle; text-align: center; font-size: 20px; font-weight: bold; color: ${getCouleurPrimaire(rapport)};">
+      ${rapport.logo || 'DMN'}
+    </span>
+  </div>`;
+};
+
+const getCouleurPrimaire = (rapport) => {
+  return rapport.couleurs?.primaire || '#006633';
 };
 
 const generateStats = (rapport) => {
@@ -703,13 +708,13 @@ const getCSSTemplate = (couleurs = { primaire: '#006633', secondaire: '#004d26' 
         height: 70px;
         background: white;
         border-radius: 50%;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 28px;
+        font-size: 20px;
         font-weight: bold;
         color: ${couleurs.primaire};
         margin-bottom: 20px;
+        display: table;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .org-name {

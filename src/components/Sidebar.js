@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import KhassaidaForm from './KhassaidaForm';
-import CommentaireModal from './CommentaireModal';
-import ProgrammeModal from './ProgrammeModal';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 const Sidebar = ({
@@ -17,10 +15,42 @@ const Sidebar = ({
   importJSON
 }) => {
   const [showKhassaidaForm, setShowKhassaidaForm] = useState(false);
-  const [showCommentaireModal, setShowCommentaireModal] = useState(false);
-  const [showProgrammeModal, setShowProgrammeModal] = useState(false);
-  const [editingCommentaire, setEditingCommentaire] = useState(null);
-  const [editingProgrammeItem, setEditingProgrammeItem] = useState(null);
+
+  // Fonctions temporaires pour remplacer les modals
+  const handleAddCommentaire = () => {
+    const khassaidas = rapport.khassaidas.map(k => `${k.nom} - ${k.chanteur}`);
+    if (khassaidas.length === 0) {
+      alert("Ajoutez d'abord des Khassaïdas avant d'ajouter des commentaires.");
+      return;
+    }
+    const choix = prompt(`Choisissez une Khassaïda (1-${khassaidas.length}):\n${khassaidas.map((k, i) => `${i+1}. ${k}`).join('\n')}`);
+    if (!choix) return;
+    
+    const index = parseInt(choix) - 1;
+    if (index < 0 || index >= khassaidas.length) {
+      alert("Choix invalide");
+      return;
+    }
+    
+    const commentaire = prompt("Entrez votre commentaire:");
+    if (!commentaire) return;
+    
+    const nouveauxCommentaires = [...(rapport.commentaires || [])];
+    nouveauxCommentaires.push({
+      khassaidaId: rapport.khassaidas[index].id,
+      commentaire: commentaire
+    });
+    updateRapport({ commentaires: nouveauxCommentaires });
+  };
+
+  const handleAddProgrammeItem = () => {
+    const item = prompt("Entrez un point du programme:");
+    if (!item) return;
+    
+    const nouveauProgramme = [...(rapport.programme || [])];
+    nouveauProgramme.push(item);
+    updateRapport({ programme: nouveauProgramme });
+  };
 
   const onDragEnd = (result) => {
     if (!result.destination) return;
@@ -51,74 +81,15 @@ const Sidebar = ({
           {/* Section Logo */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Logo du Dahira
+              Logo du Dahira (Texte)
             </label>
-            <div className="space-y-3">
-              <div className="flex gap-2">
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="logoType"
-                    value="text"
-                    checked={rapport.logoType === 'text'}
-                    onChange={(e) => updateRapport({ logoType: e.target.value })}
-                    className="mr-2"
-                  />
-                  Texte
-                </label>
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="logoType"
-                    value="image"
-                    checked={rapport.logoType === 'image'}
-                    onChange={(e) => updateRapport({ logoType: e.target.value })}
-                    className="mr-2"
-                  />
-                  Image
-                </label>
-              </div>
-
-              {rapport.logoType === 'text' ? (
-                <input
-                  type="text"
-                  value={rapport.logo}
-                  onChange={(e) => updateRapport({ logo: e.target.value })}
-                  placeholder="DMN"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                />
-              ) : (
-                <div>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => {
-                      const file = e.target.files[0];
-                      if (file) {
-                        const reader = new FileReader();
-                        reader.onload = (event) => {
-                          updateRapport({ 
-                            logoImage: event.target.result,
-                            logo: file.name 
-                          });
-                        };
-                        reader.readAsDataURL(file);
-                      }
-                    }}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                  />
-                  {rapport.logoImage && (
-                    <div className="mt-2">
-                      <img 
-                        src={rapport.logoImage} 
-                        alt="Logo prévisualisation" 
-                        className="w-16 h-16 object-contain border rounded"
-                      />
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
+            <input
+              type="text"
+              value={rapport.logo}
+              onChange={(e) => updateRapport({ logo: e.target.value, logoType: 'text' })}
+              placeholder="DMN"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            />
           </div>
 
           <div>
@@ -309,14 +280,7 @@ const Sidebar = ({
           <div className="flex justify-between items-center mb-3">
             <h3 className="text-md font-medium text-gray-800">📝 Commentaires par Khassaïda</h3>
             <button
-              onClick={() => {
-                if (rapport.khassaidas.length === 0) {
-                  alert('Aucune Khassaïda disponible. Ajoutez d\'abord des Khassaïdas.');
-                  return;
-                }
-                setEditingCommentaire(null);
-                setShowCommentaireModal(true);
-              }}
+              onClick={handleAddCommentaire}
               className="px-3 py-1 bg-primary hover:bg-green-700 text-white text-sm rounded-md transition-colors"
             >
               + Ajouter Commentaire
@@ -338,8 +302,13 @@ const Sidebar = ({
                   <div className="flex space-x-1 ml-2">
                     <button
                       onClick={() => {
-                        setEditingCommentaire(comment);
-                        setShowCommentaireModal(true);
+                        const nouveauCommentaire = prompt("Modifier le commentaire:", comment.commentaire);
+                        if (nouveauCommentaire !== null && nouveauCommentaire !== comment.commentaire) {
+                          const nouveauxCommentaires = rapport.commentairesKhassaidas.map(c => 
+                            c.id === comment.id ? { ...c, commentaire: nouveauCommentaire } : c
+                          );
+                          updateRapport({ commentairesKhassaidas: nouveauxCommentaires });
+                        }
                       }}
                       className="px-2 py-1 bg-blue-500 hover:bg-blue-600 text-white text-xs rounded"
                     >
@@ -369,10 +338,7 @@ const Sidebar = ({
             📅 Programme du Mois Prochain
           </h2>
           <button
-            onClick={() => {
-              setEditingProgrammeItem(null);
-              setShowProgrammeModal(true);
-            }}
+            onClick={handleAddProgrammeItem}
             className="px-3 py-1 bg-primary hover:bg-green-700 text-white text-sm rounded-md transition-colors"
           >
             + Ajouter Point
@@ -390,8 +356,13 @@ const Sidebar = ({
               <div className="flex space-x-1 ml-2">
                 <button
                   onClick={() => {
-                    setEditingProgrammeItem(item);
-                    setShowProgrammeModal(true);
+                    const nouveauTexte = prompt("Modifier le point du programme:", item.texte);
+                    if (nouveauTexte !== null && nouveauTexte !== item.texte) {
+                      const nouveauxItems = rapport.programmeItems.map(i => 
+                        i.id === item.id ? { ...i, texte: nouveauTexte } : i
+                      );
+                      updateRapport({ programmeItems: nouveauxItems });
+                    }
                   }}
                   className="px-2 py-1 bg-blue-500 hover:bg-blue-600 text-white text-xs rounded"
                 >
@@ -565,64 +536,6 @@ const Sidebar = ({
           }}
         />
       )}
-
-      {/* Modal Commentaire */}
-      <CommentaireModal
-        isOpen={showCommentaireModal}
-        onClose={() => {
-          setShowCommentaireModal(false);
-          setEditingCommentaire(null);
-        }}
-        onSave={(commentaireData) => {
-          const nouveauxCommentaires = [...(rapport.commentairesKhassaidas || [])];
-          
-          if (editingCommentaire) {
-            // Modification
-            const index = nouveauxCommentaires.findIndex(c => c.id === editingCommentaire.id);
-            if (index >= 0) {
-              nouveauxCommentaires[index] = commentaireData;
-            }
-          } else {
-            // Ajout - vérifier s'il existe déjà un commentaire pour cette Khassaïda
-            const existingIndex = nouveauxCommentaires.findIndex(c => c.khassaidaId === commentaireData.khassaidaId);
-            if (existingIndex >= 0) {
-              nouveauxCommentaires[existingIndex] = commentaireData;
-            } else {
-              nouveauxCommentaires.push(commentaireData);
-            }
-          }
-          
-          updateRapport({ commentairesKhassaidas: nouveauxCommentaires });
-        }}
-        khassaidas={rapport.khassaidas}
-        commentaireExistant={editingCommentaire}
-      />
-
-      {/* Modal Programme */}
-      <ProgrammeModal
-        isOpen={showProgrammeModal}
-        onClose={() => {
-          setShowProgrammeModal(false);
-          setEditingProgrammeItem(null);
-        }}
-        onSave={(itemData) => {
-          const nouveauxItems = [...(rapport.programmeItems || [])];
-          
-          if (editingProgrammeItem) {
-            // Modification
-            const index = nouveauxItems.findIndex(i => i.id === editingProgrammeItem.id);
-            if (index >= 0) {
-              nouveauxItems[index] = itemData;
-            }
-          } else {
-            // Ajout
-            nouveauxItems.push(itemData);
-          }
-          
-          updateRapport({ programmeItems: nouveauxItems });
-        }}
-        itemExistant={editingProgrammeItem}
-      />
     </div>
   );
 };

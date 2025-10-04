@@ -327,16 +327,8 @@ const Preview = ({ rapport }) => {
       <div className="p-8">
         {/* EN-TÊTE AVEC GRADIENT COMME VOTRE TEMPLATE */}
         <div className="bg-gradient-to-r from-primary to-secondary text-white p-12 rounded-2xl text-center mb-8 shadow-2xl">
-          <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center text-primary font-bold text-4xl mx-auto mb-6 shadow-lg overflow-hidden">
-            {rapport.logoType === 'image' && rapport.logoImage ? (
-              <img 
-                src={rapport.logoImage} 
-                alt="Logo Dahira" 
-                className="w-full h-full object-contain"
-              />
-            ) : (
-              <span className="text-center leading-none">{rapport.logo || 'DMN'}</span>
-            )}
+          <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center text-primary font-bold text-3xl mx-auto mb-6 shadow-lg">
+            <span className="text-center leading-none">{rapport.logo || 'DMN'}</span>
           </div>
           <div className="text-sm uppercase tracking-widest opacity-90 mb-4 font-light">
             {rapport.dahira}

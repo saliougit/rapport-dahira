@@ -1,9 +1,8 @@
 export const defaultRapport = {
   dahira: "Dahira Madjmahoun Noreyni UCAD",
   logo: "DMN",
-  logoImage: null, // URL ou base64 de l'image du logo
-  logoType: "text", // "text" ou "image"
-  kourel: "Kourel 1 National",
+  logoType: "text", // Toujours texte maintenant
+  kourel: "Kourel 2 National",
   periode: {
     type: "mois",
     mois: "Septembre 2025",
@@ -11,8 +10,8 @@ export const defaultRapport = {
     fin: ""
   },
   responsable: {
-    nom: "Elhadji Ndiaye",
-    titre: "Responsable Pôle Kourel 1 National DMN"
+    nom: "Abdoul Hakim Babou",
+    titre: "Responsable Pôle Kourel 2 National DMN"
   },
   
   // Configuration des couleurs
@@ -83,9 +82,5 @@ export const defaultRapport = {
     }
   ],
   appreciationGenerale: "Le travail réalisé jusqu'à présent montre une bonne dynamique globale, avec une khassaïda totalement achevée : Matlabou Fawzeyni. Cela témoigne d'un engagement sérieux de la part des membres impliqués.",
-  programme: [],
-  couleurs: {
-    primaire: "#006633",
-    secondaire: "#ffffff"
-  }
+  programme: []
 };
