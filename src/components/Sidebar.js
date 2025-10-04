@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import KhassaidaForm from './KhassaidaForm';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
@@ -65,12 +66,12 @@ const Sidebar = ({
           <h1 className="text-xl font-bold text-gray-900">
             📊 Générateur de Rapports
           </h1>
-          <a 
-            href="/documentation" 
+          <Link 
+            to="/documentation" 
             className="flex items-center px-3 py-2 text-sm font-medium text-green-600 hover:text-green-500 hover:bg-green-50 rounded-md transition-colors"
           >
             📚 Documentation
-          </a>
+          </Link>
         </div>
       </div>
 
