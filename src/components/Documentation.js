@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Documentation = () => {
   const [activeSection, setActiveSection] = useState('guide');
+  const navigate = useNavigate();
 
   const sections = {
     guide: 'Guide d\'Utilisation',
@@ -26,12 +27,12 @@ const Documentation = () => {
             <div className="flex items-center space-x-4">
               <span className="text-sm text-gray-500">Générateur de Rapports Dahira</span>
               <div className="h-6 w-px bg-gray-300"></div>
-              <Link 
-                to="/index.html" 
-                className="text-sm font-medium text-green-600 hover:text-green-500"
+              <button 
+                onClick={() => navigate('/')}
+                className="text-sm font-medium text-green-600 hover:text-green-500 bg-transparent border-none cursor-pointer"
               >
                 ← Retour à l'application
-              </Link>
+              </button>
             </div>
           </div>
         </div>
