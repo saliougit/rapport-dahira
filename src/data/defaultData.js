@@ -1,6 +1,8 @@
 export const defaultRapport = {
   dahira: "Dahira Madjmahoun Noreyni UCAD",
-  logo: "D",
+  logo: "DMN",
+  logoImage: null, // URL ou base64 de l'image du logo
+  logoType: "text", // "text" ou "image"
   kourel: "Kourel 1 National",
   periode: {
     type: "mois",
@@ -11,6 +13,12 @@ export const defaultRapport = {
   responsable: {
     nom: "Elhadji Ndiaye",
     titre: "Responsable Pôle Kourel 1 National DMN"
+  },
+  
+  // Configuration des couleurs
+  couleurs: {
+    primaire: "#006633",
+    secondaire: "#004d26"
   },
   
   // Configuration pour activer/désactiver les sections

@@ -14,3 +14,38 @@ code {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --color-primary: #006633;
+  --color-secondary: #004d26;
+}
+
+@layer components {
+  .bg-primary {
+    background-color: var(--color-primary) !important;
+  }
+  
+  .text-primary {
+    color: var(--color-primary) !important;
+  }
+  
+  .border-primary {
+    border-color: var(--color-primary) !important;
+  }
+  
+  .bg-secondary {
+    background-color: var(--color-secondary) !important;
+  }
+  
+  .text-secondary {
+    color: var(--color-secondary) !important;
+  }
+  
+  .from-primary {
+    --tw-gradient-from: var(--color-primary) !important;
+  }
+  
+  .to-secondary {
+    --tw-gradient-to: var(--color-secondary) !important;
+  }
+}

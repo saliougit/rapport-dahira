@@ -326,9 +326,17 @@ const Preview = ({ rapport }) => {
 
       <div className="p-8">
         {/* EN-TÊTE AVEC GRADIENT COMME VOTRE TEMPLATE */}
-        <div className="bg-gradient-to-r from-green-800 to-green-900 text-white p-12 rounded-2xl text-center mb-8 shadow-2xl">
-          <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center text-green-800 font-bold text-4xl mx-auto mb-6 shadow-lg">
-            {rapport.logo}
+        <div className="bg-gradient-to-r from-primary to-secondary text-white p-12 rounded-2xl text-center mb-8 shadow-2xl">
+          <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center text-primary font-bold text-4xl mx-auto mb-6 shadow-lg overflow-hidden">
+            {rapport.logoType === 'image' && rapport.logoImage ? (
+              <img 
+                src={rapport.logoImage} 
+                alt="Logo Dahira" 
+                className="w-full h-full object-contain"
+              />
+            ) : (
+              <span>{rapport.logo || 'DMN'}</span>
+            )}
           </div>
           <div className="text-sm uppercase tracking-widest opacity-90 mb-4 font-light">
             {rapport.dahira}
@@ -482,6 +490,31 @@ const Preview = ({ rapport }) => {
           </h3>
           <div className="bg-gray-50 p-8 rounded-xl border-l-4 border-green-600 shadow-sm">
             <p className="text-gray-700 leading-relaxed text-lg">{rapport.appreciationGenerale}</p>
+            
+            {/* Commentaires par Khassaïda */}
+            <div className="mt-8">
+              <h4 className="text-xl font-semibold text-gray-800 mb-4">📝 Commentaires par Khassaïda</h4>
+              <div className="space-y-4">
+                {rapport.khassaidas.map((khassaida, index) => {
+                  const progression = calculateProgression(khassaida);
+                  const getAppreciationIcon = (pourcentage) => {
+                    if (pourcentage >= 80) return '✅';
+                    if (pourcentage >= 50) return '🟡';
+                    return '🔴';
+                  };
+                  const icon = getAppreciationIcon(progression.pourcentage);
+                  
+                  return (
+                    <div key={khassaida.id} className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+                      <h5 className="font-semibold text-gray-900 mb-2">
+                        {index + 1}️⃣ {khassaida.nom} ({khassaida.chanteur}) - {progression.pourcentage}% {icon}
+                      </h5>
+                      <p className="text-gray-700">{khassaida.commentaire}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
         )}

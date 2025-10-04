@@ -24,6 +24,14 @@ function App() {
     localStorage.setItem('rapport-dahira', JSON.stringify(rapport));
   }, [rapport]);
 
+  // Appliquer les couleurs CSS personnalisées
+  useEffect(() => {
+    if (rapport.couleurs) {
+      document.documentElement.style.setProperty('--color-primary', rapport.couleurs.primaire);
+      document.documentElement.style.setProperty('--color-secondary', rapport.couleurs.secondaire);
+    }
+  }, [rapport.couleurs]);
+
   const updateRapport = (updates) => {
     setRapport(prev => ({ ...prev, ...updates }));
   };

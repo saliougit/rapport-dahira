@@ -42,6 +42,91 @@ const Sidebar = ({
             />
           </div>
 
+          {/* Section Logo */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Logo du Dahira
+            </label>
+            <div className="space-y-3">
+              <div className="flex gap-2">
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="logoType"
+                    value="text"
+                    checked={rapport.logoType === 'text'}
+                    onChange={(e) => updateRapport({ logoType: e.target.value })}
+                    className="mr-2"
+                  />
+                  Texte
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="logoType"
+                    value="image"
+                    checked={rapport.logoType === 'image'}
+                    onChange={(e) => updateRapport({ logoType: e.target.value })}
+                    className="mr-2"
+                  />
+                  Image
+                </label>
+              </div>
+
+              {rapport.logoType === 'text' ? (
+                <input
+                  type="text"
+                  value={rapport.logo}
+                  onChange={(e) => updateRapport({ logo: e.target.value })}
+                  placeholder="DMN"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                />
+              ) : (
+                <div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                          updateRapport({ 
+                            logoImage: event.target.result,
+                            logo: file.name 
+                          });
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  />
+                  {rapport.logoImage && (
+                    <div className="mt-2">
+                      <img 
+                        src={rapport.logoImage} 
+                        alt="Logo prévisualisation" 
+                        className="w-16 h-16 object-contain border rounded"
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Nom du Dahira
+            </label>
+            <input
+              type="text"
+              value={rapport.dahira}
+              onChange={(e) => updateRapport({ dahira: e.target.value })}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            />
+          </div>
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Type de Période

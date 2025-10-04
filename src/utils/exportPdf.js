@@ -370,14 +370,14 @@ const generateHTMLTemplate = (rapport) => {
     <head>
         <meta charset="UTF-8">
         <style>
-            ${getCSSTemplate()}
+            ${getCSSTemplate(rapport.couleurs)}
         </style>
     </head>
     <body>
         <div class="container">
             <!-- En-tête -->
             <div class="header">
-                <div class="logo">${rapport.logo}</div>
+                ${generateLogo(rapport)}
                 <div class="org-name">${rapport.dahira}</div>
                 <h1 class="main-title">RAPPORT DE RÉPÉTITION MENSUEL</h1>
                 <p class="subtitle">${getPeriodeDisplay(rapport.periode)} • ${rapport.kourel}</p>
@@ -472,6 +472,14 @@ const formatDate = (dateString) => {
   if (!dateString) return '';
   const date = new Date(dateString);
   return date.toLocaleDateString('fr-FR');
+};
+
+const generateLogo = (rapport) => {
+  if (rapport.logoType === 'image' && rapport.logoImage) {
+    return `<div class="logo"><img src="${rapport.logoImage}" alt="Logo Dahira" style="width: 100%; height: 100%; object-fit: contain;" /></div>`;
+  } else {
+    return `<div class="logo">${rapport.logo || 'DMN'}</div>`;
+  }
 };
 
 const generateStats = (rapport) => {
@@ -643,7 +651,7 @@ const getAppreciationIcon = (pourcentage) => {
   return '🔴';
 };
 
-const getCSSTemplate = () => {
+const getCSSTemplate = (couleurs = { primaire: '#006633', secondaire: '#004d26' }) => {
   return `
     * {
         margin: 0;
@@ -667,7 +675,7 @@ const getCSSTemplate = () => {
 
     /* En-tête */
     .header {
-        background: linear-gradient(135deg, #006633 0%, #004d26 100%);
+        background: linear-gradient(135deg, ${couleurs.primaire} 0%, ${couleurs.secondaire} 100%);
         color: white;
         padding: 40px;
         text-align: center;
@@ -683,7 +691,7 @@ const getCSSTemplate = () => {
         justify-content: center;
         font-size: 28px;
         font-weight: bold;
-        color: #006633;
+        color: ${couleurs.primaire};
         margin-bottom: 20px;
     }
 
@@ -710,7 +718,7 @@ const getCSSTemplate = () => {
     .info-section {
         padding: 30px 40px;
         background: #f8f9fa;
-        border-bottom: 3px solid #006633;
+        border-bottom: 3px solid ${couleurs.primaire};
     }
 
     .info-grid {
@@ -723,7 +731,7 @@ const getCSSTemplate = () => {
         background: white;
         padding: 20px;
         border-radius: 8px;
-        border-left: 4px solid #006633;
+        border-left: 4px solid ${couleurs.primaire};
     }
 
     .info-label {
@@ -756,7 +764,7 @@ const getCSSTemplate = () => {
         padding: 25px;
         border-radius: 10px;
         text-align: center;
-        border-top: 4px solid #006633;
+        border-top: 4px solid ${couleurs.primaire};
     }
 
     .stat-icon {
@@ -774,7 +782,7 @@ const getCSSTemplate = () => {
     .stat-value {
         font-size: 32px;
         font-weight: 700;
-        color: #006633;
+        color: ${couleurs.primaire};
     }
 
     /* Tableau */
@@ -787,7 +795,7 @@ const getCSSTemplate = () => {
         color: #212529;
         margin-bottom: 20px;
         padding-bottom: 10px;
-        border-bottom: 3px solid #006633;
+        border-bottom: 3px solid ${couleurs.primaire};
         font-weight: 600;
     }
 
@@ -801,7 +809,7 @@ const getCSSTemplate = () => {
     }
 
     thead {
-        background: #006633;
+        background: ${couleurs.primaire};
         color: white;
     }
 
@@ -919,12 +927,12 @@ const getCSSTemplate = () => {
         background: #f8f9fa;
         padding: 30px;
         border-radius: 10px;
-        border-left: 5px solid #006633;
+        border-left: 5px solid ${couleurs.primaire};
         line-height: 1.8;
     }
 
     .appreciation-box h3 {
-        color: #006633;
+        color: ${couleurs.primaire};
         margin-bottom: 20px;
         font-size: 18px;
     }
@@ -939,7 +947,7 @@ const getCSSTemplate = () => {
         padding: 15px;
         margin-bottom: 15px;
         border-radius: 8px;
-        border-left: 3px solid #006633;
+        border-left: 3px solid ${couleurs.primaire};
     }
 
     .khassaida-comment h4 {
@@ -968,7 +976,7 @@ const getCSSTemplate = () => {
         content: '●';
         position: absolute;
         left: 5px;
-        color: #006633;
+        color: ${couleurs.primaire};
     }
 
     /* Programme */
@@ -983,7 +991,7 @@ const getCSSTemplate = () => {
     }
 
     .program-box h3 {
-        color: #006633;
+        color: ${couleurs.primaire};
         margin-bottom: 20px;
         font-size: 18px;
     }
