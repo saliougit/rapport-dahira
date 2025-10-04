@@ -29,6 +29,12 @@ export const defaultRapport = {
     appreciation: true,
     programme: true
   },
+  
+  // Commentaires spécifiques par Khassaïda
+  commentairesKhassaidas: [],
+  
+  // Programme avec des éléments individuels
+  programmeItems: [],
   khassaidas: [
     {
       id: "1",
@@ -77,13 +83,7 @@ export const defaultRapport = {
     }
   ],
   appreciationGenerale: "Le travail réalisé jusqu'à présent montre une bonne dynamique globale, avec une khassaïda totalement achevée : Matlabou Fawzeyni. Cela témoigne d'un engagement sérieux de la part des membres impliqués.",
-  programme: [
-    "Finaliser les 8 pages restantes de Hamat Souleymà",
-    "Intensifier le travail sur le 2ème Dadj de Mawahibou S. Mahib",
-    "Reprendre entièrement le 3ème Dadj de Mawahibou S. Mahib",
-    "Organisation d'une session de révision collective hebdomadaire",
-    "Renforcement de l'équipe avec 2 membres supplémentaires"
-  ],
+  programme: [],
   couleurs: {
     primaire: "#006633",
     secondaire: "#ffffff"

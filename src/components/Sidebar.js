@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import KhassaidaForm from './KhassaidaForm';
+import CommentaireModal from './CommentaireModal';
+import ProgrammeModal from './ProgrammeModal';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 const Sidebar = ({
@@ -15,6 +17,10 @@ const Sidebar = ({
   importJSON
 }) => {
   const [showKhassaidaForm, setShowKhassaidaForm] = useState(false);
+  const [showCommentaireModal, setShowCommentaireModal] = useState(false);
+  const [showProgrammeModal, setShowProgrammeModal] = useState(false);
+  const [editingCommentaire, setEditingCommentaire] = useState(null);
+  const [editingProgrammeItem, setEditingProgrammeItem] = useState(null);
 
   const onDragEnd = (result) => {
     if (!result.destination) return;
@@ -297,22 +303,121 @@ const Sidebar = ({
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           placeholder="Saisissez votre appréciation générale..."
         />
+        
+        {/* Commentaires par Khassaïda */}
+        <div className="mt-6">
+          <div className="flex justify-between items-center mb-3">
+            <h3 className="text-md font-medium text-gray-800">📝 Commentaires par Khassaïda</h3>
+            <button
+              onClick={() => {
+                if (rapport.khassaidas.length === 0) {
+                  alert('Aucune Khassaïda disponible. Ajoutez d\'abord des Khassaïdas.');
+                  return;
+                }
+                setEditingCommentaire(null);
+                setShowCommentaireModal(true);
+              }}
+              className="px-3 py-1 bg-primary hover:bg-green-700 text-white text-sm rounded-md transition-colors"
+            >
+              + Ajouter Commentaire
+            </button>
+          </div>
+          
+          {/* Liste des commentaires */}
+          <div className="space-y-2 max-h-32 overflow-y-auto">
+            {(rapport.commentairesKhassaidas || []).map((comment) => {
+              const khassaida = rapport.khassaidas.find(k => k.id === comment.khassaidaId);
+              return (
+                <div key={comment.id} className="flex items-start justify-between p-3 bg-gray-50 rounded border">
+                  <div className="flex-1 min-w-0">
+                    <div className="text-xs font-medium text-gray-900 truncate">
+                      {khassaida?.nom || 'Khassaïda supprimée'}
+                    </div>
+                    <div className="text-sm text-gray-700 mt-1">{comment.commentaire}</div>
+                  </div>
+                  <div className="flex space-x-1 ml-2">
+                    <button
+                      onClick={() => {
+                        setEditingCommentaire(comment);
+                        setShowCommentaireModal(true);
+                      }}
+                      className="px-2 py-1 bg-blue-500 hover:bg-blue-600 text-white text-xs rounded"
+                    >
+                      ✏️
+                    </button>
+                    <button
+                      onClick={() => {
+                        const nouveauxCommentaires = rapport.commentairesKhassaidas.filter(c => c.id !== comment.id);
+                        updateRapport({ commentairesKhassaidas: nouveauxCommentaires });
+                      }}
+                      className="px-2 py-1 bg-red-500 hover:bg-red-600 text-white text-xs rounded"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
 
       {/* Programme */}
       <div className="bg-white rounded-lg shadow-sm border p-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">
-          📅 Programme du Mois Prochain
-        </h2>
-        <textarea
-          value={rapport.programme.join('\n')}
-          onChange={(e) => updateRapport({ 
-            programme: e.target.value.split('\n').filter(line => line.trim())
-          })}
-          rows="4"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-          placeholder="Saisissez chaque point sur une nouvelle ligne..."
-        />
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-lg font-semibold text-gray-900">
+            📅 Programme du Mois Prochain
+          </h2>
+          <button
+            onClick={() => {
+              setEditingProgrammeItem(null);
+              setShowProgrammeModal(true);
+            }}
+            className="px-3 py-1 bg-primary hover:bg-green-700 text-white text-sm rounded-md transition-colors"
+          >
+            + Ajouter Point
+          </button>
+        </div>
+        
+        {/* Liste des points du programme */}
+        <div className="space-y-2 max-h-40 overflow-y-auto">
+          {(rapport.programmeItems || []).map((item) => (
+            <div key={item.id} className="flex items-center justify-between p-3 bg-gray-50 rounded border">
+              <div className="flex items-center flex-1">
+                <span className="mr-3 text-green-600 text-lg">📌</span>
+                <span className="text-sm text-gray-700">{item.texte}</span>
+              </div>
+              <div className="flex space-x-1 ml-2">
+                <button
+                  onClick={() => {
+                    setEditingProgrammeItem(item);
+                    setShowProgrammeModal(true);
+                  }}
+                  className="px-2 py-1 bg-blue-500 hover:bg-blue-600 text-white text-xs rounded"
+                >
+                  ✏️
+                </button>
+                <button
+                  onClick={() => {
+                    const nouveauxItems = rapport.programmeItems.filter(i => i.id !== item.id);
+                    updateRapport({ programmeItems: nouveauxItems });
+                  }}
+                  className="px-2 py-1 bg-red-500 hover:bg-red-600 text-white text-xs rounded"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+          ))}
+          
+          {(!rapport.programmeItems || rapport.programmeItems.length === 0) && (!rapport.programme || rapport.programme.length === 0) && (
+            <div className="text-center py-6 text-gray-500">
+              <span className="text-2xl">📝</span>
+              <p className="mt-2 text-sm">Aucun point de programme ajouté</p>
+              <p className="text-xs">Cliquez sur "+ Ajouter Point" pour commencer</p>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Configuration des Sections */}
@@ -460,6 +565,64 @@ const Sidebar = ({
           }}
         />
       )}
+
+      {/* Modal Commentaire */}
+      <CommentaireModal
+        isOpen={showCommentaireModal}
+        onClose={() => {
+          setShowCommentaireModal(false);
+          setEditingCommentaire(null);
+        }}
+        onSave={(commentaireData) => {
+          const nouveauxCommentaires = [...(rapport.commentairesKhassaidas || [])];
+          
+          if (editingCommentaire) {
+            // Modification
+            const index = nouveauxCommentaires.findIndex(c => c.id === editingCommentaire.id);
+            if (index >= 0) {
+              nouveauxCommentaires[index] = commentaireData;
+            }
+          } else {
+            // Ajout - vérifier s'il existe déjà un commentaire pour cette Khassaïda
+            const existingIndex = nouveauxCommentaires.findIndex(c => c.khassaidaId === commentaireData.khassaidaId);
+            if (existingIndex >= 0) {
+              nouveauxCommentaires[existingIndex] = commentaireData;
+            } else {
+              nouveauxCommentaires.push(commentaireData);
+            }
+          }
+          
+          updateRapport({ commentairesKhassaidas: nouveauxCommentaires });
+        }}
+        khassaidas={rapport.khassaidas}
+        commentaireExistant={editingCommentaire}
+      />
+
+      {/* Modal Programme */}
+      <ProgrammeModal
+        isOpen={showProgrammeModal}
+        onClose={() => {
+          setShowProgrammeModal(false);
+          setEditingProgrammeItem(null);
+        }}
+        onSave={(itemData) => {
+          const nouveauxItems = [...(rapport.programmeItems || [])];
+          
+          if (editingProgrammeItem) {
+            // Modification
+            const index = nouveauxItems.findIndex(i => i.id === editingProgrammeItem.id);
+            if (index >= 0) {
+              nouveauxItems[index] = itemData;
+            }
+          } else {
+            // Ajout
+            nouveauxItems.push(itemData);
+          }
+          
+          updateRapport({ programmeItems: nouveauxItems });
+        }}
+        itemExistant={editingProgrammeItem}
+      />
     </div>
   );
 };

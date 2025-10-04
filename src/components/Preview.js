@@ -335,7 +335,7 @@ const Preview = ({ rapport }) => {
                 className="w-full h-full object-contain"
               />
             ) : (
-              <span>{rapport.logo || 'DMN'}</span>
+              <span className="text-center leading-none">{rapport.logo || 'DMN'}</span>
             )}
           </div>
           <div className="text-sm uppercase tracking-widest opacity-90 mb-4 font-light">
@@ -492,29 +492,34 @@ const Preview = ({ rapport }) => {
             <p className="text-gray-700 leading-relaxed text-lg">{rapport.appreciationGenerale}</p>
             
             {/* Commentaires par Khassaïda */}
-            <div className="mt-8">
-              <h4 className="text-xl font-semibold text-gray-800 mb-4">📝 Commentaires par Khassaïda</h4>
-              <div className="space-y-4">
-                {rapport.khassaidas.map((khassaida, index) => {
-                  const progression = calculateProgression(khassaida);
-                  const getAppreciationIcon = (pourcentage) => {
-                    if (pourcentage >= 80) return '✅';
-                    if (pourcentage >= 50) return '🟡';
-                    return '🔴';
-                  };
-                  const icon = getAppreciationIcon(progression.pourcentage);
-                  
-                  return (
-                    <div key={khassaida.id} className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
-                      <h5 className="font-semibold text-gray-900 mb-2">
-                        {index + 1}️⃣ {khassaida.nom} ({khassaida.chanteur}) - {progression.pourcentage}% {icon}
-                      </h5>
-                      <p className="text-gray-700">{khassaida.commentaire}</p>
-                    </div>
-                  );
-                })}
+            {rapport.commentairesKhassaidas && rapport.commentairesKhassaidas.length > 0 && (
+              <div className="mt-8">
+                <h4 className="text-xl font-semibold text-gray-800 mb-4">📝 Commentaires par Khassaïda</h4>
+                <div className="space-y-4">
+                  {rapport.commentairesKhassaidas.map((comment) => {
+                    const khassaida = rapport.khassaidas[parseInt(comment.khassaidaId) - 1];
+                    if (!khassaida) return null;
+                    
+                    const progression = calculateProgression(khassaida);
+                    const getAppreciationIcon = (pourcentage) => {
+                      if (pourcentage >= 80) return '✅';
+                      if (pourcentage >= 50) return '🟡';
+                      return '🔴';
+                    };
+                    const icon = getAppreciationIcon(progression.pourcentage);
+                    
+                    return (
+                      <div key={comment.id} className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+                        <h5 className="font-semibold text-gray-900 mb-2">
+                          {comment.khassaidaId}️⃣ {khassaida.nom} ({khassaida.chanteur}) - {progression.pourcentage}% {icon}
+                        </h5>
+                        <p className="text-gray-700">{comment.commentaire}</p>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
         )}
@@ -527,12 +532,22 @@ const Preview = ({ rapport }) => {
           </h3>
           <div className="bg-gradient-to-r from-green-50 to-emerald-100 p-8 rounded-xl border border-green-200 shadow-sm">
             <ul className="space-y-3">
-              {rapport.programme.map((item, index) => (
-                <li key={index} className="flex items-start">
-                  <span className="mr-4 mt-1 text-green-600 text-lg">📌</span>
-                  <span className="text-gray-700 text-lg">{item}</span>
-                </li>
-              ))}
+              {/* Nouveau système avec programmeItems */}
+              {rapport.programmeItems && rapport.programmeItems.length > 0 ? 
+                rapport.programmeItems.map((item) => (
+                  <li key={item.id} className="flex items-start">
+                    <span className="mr-4 mt-1 text-green-600 text-lg">📌</span>
+                    <span className="text-gray-700 text-lg">{item.texte}</span>
+                  </li>
+                )) :
+                // Fallback vers l'ancien système programme
+                rapport.programme && rapport.programme.map((item, index) => (
+                  <li key={index} className="flex items-start">
+                    <span className="mr-4 mt-1 text-green-600 text-lg">📌</span>
+                    <span className="text-gray-700 text-lg">{item}</span>
+                  </li>
+                ))
+              }
             </ul>
           </div>
         </div>

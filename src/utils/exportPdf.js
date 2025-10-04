@@ -449,7 +449,7 @@ const generateHTMLTemplate = (rapport) => {
                 <h2 class="section-title">📅 Programme du Mois Prochain</h2>
                 <div class="program-box">
                     <ul class="program-list">
-                        ${rapport.programme.map(item => `<li>${item}</li>`).join('')}
+                        ${generateProgramme(rapport)}
                     </ul>
                 </div>
             </div>
@@ -626,29 +626,46 @@ const getPercentageClass = (pourcentage) => {
 };
 
 const generateAppreciation = (rapport) => {
-  return `
-    <p>${rapport.appreciationGenerale}</p>
-    
-    <h3>📝 Commentaires par Khassaïda</h3>
-    
-    ${rapport.khassaidas.map((khassaida, index) => {
+  let html = `<p>${rapport.appreciationGenerale}</p>`;
+  
+  // Utiliser les nouveaux commentaires s'ils existent
+  if (rapport.commentairesKhassaidas && rapport.commentairesKhassaidas.length > 0) {
+    html += `<h3>📝 Commentaires par Khassaïda</h3>`;
+    html += rapport.commentairesKhassaidas.map((comment) => {
+      const khassaida = rapport.khassaidas[parseInt(comment.khassaidaId) - 1];
+      if (!khassaida) return '';
+      
       const progression = calculateProgression(khassaida);
       const icon = getAppreciationIcon(progression.pourcentage);
       
       return `
         <div class="khassaida-comment">
-          <h4>${index + 1}️⃣ ${khassaida.nom} (${khassaida.chanteur}) - ${progression.pourcentage}% ${icon}</h4>
-          <p>${khassaida.commentaire}</p>
+          <h4>${comment.khassaidaId}️⃣ ${khassaida.nom} (${khassaida.chanteur}) - ${progression.pourcentage}% ${icon}</h4>
+          <p>${comment.commentaire}</p>
         </div>
       `;
-    }).join('')}
-  `;
+    }).join('');
+  }
+  
+  return html;
 };
 
 const getAppreciationIcon = (pourcentage) => {
   if (pourcentage >= 80) return '✅';
   if (pourcentage >= 50) return '🟡';
   return '🔴';
+};
+
+const generateProgramme = (rapport) => {
+  // Utiliser les nouveaux programmeItems s'ils existent
+  if (rapport.programmeItems && rapport.programmeItems.length > 0) {
+    return rapport.programmeItems.map(item => `<li>${item.texte}</li>`).join('');
+  }
+  // Fallback vers l'ancien système programme
+  if (rapport.programme && rapport.programme.length > 0) {
+    return rapport.programme.map(item => `<li>${item}</li>`).join('');
+  }
+  return '<li>Aucun programme défini</li>';
 };
 
 const getCSSTemplate = (couleurs = { primaire: '#006633', secondaire: '#004d26' }) => {
