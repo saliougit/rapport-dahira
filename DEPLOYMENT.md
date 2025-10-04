@@ -260,9 +260,9 @@ updates:
     schedule:
       interval: "weekly"
     reviewers:
-      - "[USERNAME]"
+      - "saliougit"
     assignees:
-      - "[USERNAME]"
+      - "saliougit"
 ```
 
 ## 🔐 Sécurité
@@ -296,4 +296,4 @@ npm audit fix --force
 ---
 
 **📞 Support Déploiement**  
-En cas de problème, vérifiez d'abord les [Actions GitHub](https://github.com/[USERNAME]/rapport-dahira/actions) pour les logs détaillés.
+En cas de problème, vérifiez d'abord les [Actions GitHub](https://github.com/saliougit/rapport-dahira/actions) pour les logs détaillés.
