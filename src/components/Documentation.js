@@ -27,7 +27,7 @@ const Documentation = () => {
               <span className="text-sm text-gray-500">Générateur de Rapports Dahira</span>
               <div className="h-6 w-px bg-gray-300"></div>
               <Link 
-                to="/" 
+                to="/index.html" 
                 className="text-sm font-medium text-green-600 hover:text-green-500"
               >
                 ← Retour à l'application
