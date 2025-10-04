@@ -199,8 +199,11 @@ function MainApp() {
 
 // Composant Router principal avec navigation
 function App() {
+  // Déterminer le basename pour GitHub Pages
+  const basename = process.env.NODE_ENV === 'production' ? '/rapport-dahira' : '';
+  
   return (
-    <Router>
+    <Router basename={basename}>
       <Routes>
         <Route path="/" element={<MainApp />} />
         <Route path="/documentation" element={<Documentation />} />

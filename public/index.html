@@ -1,14 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#006633" />
     <meta
       name="description"
-      content="Web site created using create-react-app"
+      content="Générateur de Rapports Dahira - Application web pour créer des rapports mensuels de répétition"
     />
+    <meta name="keywords" content="dahira, khassaida, rapport, mensuel, répétition, PDF, export" />
+    <meta name="author" content="saliougit" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://saliougit.github.io/rapport-dahira/" />
+    <meta property="og:title" content="Générateur de Rapports Dahira" />
+    <meta property="og:description" content="Application web moderne pour créer et générer des rapports mensuels de répétition pour les Dahiras" />
+    
+    <!-- GitHub Pages SPA Support -->
+    <script type="text/javascript">
+      // Single Page Apps for GitHub Pages
+      (function(l) {
+        if (l.search[1] === '/' ) {
+          var decoded = l.search.slice(1).split('&').map(function(s) { 
+            return s.replace(/~and~/g, '&')
+          }).join('?');
+          window.history.replaceState(null, null,
+            l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      }(window.location))
+    </script>
+    
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -24,10 +48,16 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>Générateur de Rapports Dahira</title>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <noscript>
+      <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
+        <h1>🚀 Générateur de Rapports Dahira</h1>
+        <p>Vous devez activer JavaScript pour utiliser cette application.</p>
+        <p><strong>You need to enable JavaScript to run this app.</strong></p>
+      </div>
+    </noscript>
     <div id="root"></div>
     <!--
       This HTML file is a template.
