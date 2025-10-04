@@ -12,6 +12,15 @@ export const defaultRapport = {
     nom: "Elhadji Ndiaye",
     titre: "Responsable Pôle Kourel 1 National DMN"
   },
+  
+  // Configuration pour activer/désactiver les sections
+  sectionsConfig: {
+    informations: true,
+    statistiques: true,
+    tableau: true,
+    appreciation: true,
+    programme: true
+  },
   khassaidas: [
     {
       id: "1",

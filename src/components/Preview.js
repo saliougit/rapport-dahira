@@ -342,6 +342,7 @@ const Preview = ({ rapport }) => {
         </div>
 
         {/* INFORMATIONS GÉNÉRALES */}
+        {rapport.sectionsConfig?.informations !== false && (
         <div className="grid grid-cols-3 gap-6 mb-8">
           <div className="bg-gray-50 p-6 rounded-xl border-l-4 border-green-600 shadow-sm">
             <div className="text-xs text-gray-500 uppercase font-semibold tracking-wide mb-2">Kourel</div>
@@ -356,8 +357,10 @@ const Preview = ({ rapport }) => {
             <div className="font-bold text-gray-900 text-lg">{rapport.responsable.nom}</div>
           </div>
         </div>
+        )}
 
         {/* STATISTIQUES */}
+        {rapport.sectionsConfig?.statistiques !== false && (
         <div className="grid grid-cols-4 gap-6 mb-8">
           <div className="bg-gray-50 p-8 rounded-2xl text-center border-t-4 border-green-600 shadow-sm">
             <div className="text-3xl mb-3">🎵</div>
@@ -380,8 +383,10 @@ const Preview = ({ rapport }) => {
             <div className="text-3xl font-bold text-green-700">{stats.evolution}%</div>
           </div>
         </div>
+        )}
 
         {/* TABLEAU DES KHASSAÏDAS */}
+        {rapport.sectionsConfig?.tableau !== false && (
         <div className="mb-8">
           <h3 className="text-2xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-green-600">
             📊 Détail des Khassaïdas
@@ -467,8 +472,10 @@ const Preview = ({ rapport }) => {
             </table>
           </div>
         </div>
+        )}
 
         {/* APPRÉCIATION GÉNÉRALE */}
+        {rapport.sectionsConfig?.appreciation !== false && (
         <div className="mb-8">
           <h3 className="text-2xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-green-600">
             💬 Appréciation Générale
@@ -477,8 +484,10 @@ const Preview = ({ rapport }) => {
             <p className="text-gray-700 leading-relaxed text-lg">{rapport.appreciationGenerale}</p>
           </div>
         </div>
+        )}
 
         {/* PROGRAMME */}
+        {rapport.sectionsConfig?.programme !== false && (
         <div>
           <h3 className="text-2xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-green-600">
             📅 Programme du Mois Prochain
@@ -494,6 +503,7 @@ const Preview = ({ rapport }) => {
             </ul>
           </div>
         </div>
+        )}
       </div>
     </div>
   );

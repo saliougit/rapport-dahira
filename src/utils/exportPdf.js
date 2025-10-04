@@ -362,6 +362,8 @@ export const exportToPDF = (rapport) => {
 };
 
 const generateHTMLTemplate = (rapport) => {
+  const sectionsConfig = rapport.sectionsConfig || {};
+  
   return `
     <!DOCTYPE html>
     <html>
@@ -381,6 +383,7 @@ const generateHTMLTemplate = (rapport) => {
                 <p class="subtitle">${getPeriodeDisplay(rapport.periode)} • ${rapport.kourel}</p>
             </div>
 
+            ${sectionsConfig.informations !== false ? `
             <!-- Informations -->
             <div class="info-section">
                 <div class="info-grid">
@@ -398,14 +401,18 @@ const generateHTMLTemplate = (rapport) => {
                     </div>
                 </div>
             </div>
+            ` : ''}
 
+            ${sectionsConfig.statistiques !== false ? `
             <!-- Statistiques -->
             <div class="stats-section">
                 <div class="stats-grid">
                     ${generateStats(rapport)}
                 </div>
             </div>
+            ` : ''}
 
+            ${sectionsConfig.tableau !== false ? `
             <!-- Tableau des Khassaïdas -->
             <div class="table-section">
                 <h2 class="section-title">📊 Détail des Khassaïdas</h2>
@@ -424,7 +431,9 @@ const generateHTMLTemplate = (rapport) => {
                     </tbody>
                 </table>
             </div>
+            ` : ''}
 
+            ${sectionsConfig.appreciation !== false ? `
             <!-- Appréciation -->
             <div class="appreciation-section">
                 <h2 class="section-title">💬 Appréciation Générale</h2>
@@ -432,7 +441,9 @@ const generateHTMLTemplate = (rapport) => {
                     ${generateAppreciation(rapport)}
                 </div>
             </div>
+            ` : ''}
 
+            ${sectionsConfig.programme !== false ? `
             <!-- Programme -->
             <div class="program-section">
                 <h2 class="section-title">📅 Programme du Mois Prochain</h2>
@@ -442,6 +453,7 @@ const generateHTMLTemplate = (rapport) => {
                     </ul>
                 </div>
             </div>
+            ` : ''}
         </div>
     </body>
     </html>
@@ -793,11 +805,6 @@ const getCSSTemplate = () => {
         color: white;
     }
 
-    thead th {
-        position: sticky;
-        top: 0;
-    }
-
     th {
         padding: 15px;
         text-align: left;
@@ -817,12 +824,6 @@ const getCSSTemplate = () => {
 
     tbody tr:hover {
         background: #e9ecef;
-    }
-
-    /* Éviter les coupures dans les lignes du tableau */
-    tbody tr {
-        break-inside: avoid;
-        page-break-inside: avoid;
     }
 
     .khassaida-name {
@@ -912,8 +913,6 @@ const getCSSTemplate = () => {
     /* Appréciation */
     .appreciation-section {
         padding: 0 40px 40px;
-        break-inside: avoid;
-        page-break-inside: avoid;
     }
 
     .appreciation-box {
@@ -941,8 +940,6 @@ const getCSSTemplate = () => {
         margin-bottom: 15px;
         border-radius: 8px;
         border-left: 3px solid #006633;
-        break-inside: avoid;
-        page-break-inside: avoid;
     }
 
     .khassaida-comment h4 {
@@ -977,8 +974,6 @@ const getCSSTemplate = () => {
     /* Programme */
     .program-section {
         padding: 0 40px 40px;
-        break-inside: avoid;
-        page-break-inside: avoid;
     }
 
     .program-box {
@@ -1017,7 +1012,6 @@ const getCSSTemplate = () => {
         color: white;
         padding: 30px 40px;
         text-align: center;
-        margin-top: auto;
     }
 
     .footer-content {
@@ -1050,22 +1044,6 @@ const getCSSTemplate = () => {
         }
         .container {
             box-shadow: none;
-        }
-        
-        /* Gestion intelligente des sauts de page */
-        .header, .info-section, .stats-section {
-            break-inside: avoid;
-            page-break-inside: avoid;
-        }
-        
-        /* Pour les tableaux : répéter l'en-tête sur chaque page */
-        thead {
-            display: table-header-group;
-        }
-        
-        tbody tr {
-            break-inside: avoid;
-            page-break-inside: avoid;
         }
     }
   `;
