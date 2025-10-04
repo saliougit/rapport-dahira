@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Documentation = () => {
   const [activeSection, setActiveSection] = useState('guide');
@@ -25,12 +26,12 @@ const Documentation = () => {
             <div className="flex items-center space-x-4">
               <span className="text-sm text-gray-500">Générateur de Rapports Dahira</span>
               <div className="h-6 w-px bg-gray-300"></div>
-              <a 
-                href="/" 
+              <Link 
+                to="/" 
                 className="text-sm font-medium text-green-600 hover:text-green-500"
               >
                 ← Retour à l'application
-              </a>
+              </Link>
             </div>
           </div>
         </div>
