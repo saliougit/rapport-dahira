@@ -59,6 +59,21 @@ const Sidebar = ({
 
   return (
     <div className="space-y-6">
+      {/* Header avec navigation */}
+      <div className="bg-white rounded-lg shadow-sm border p-4">
+        <div className="flex items-center justify-between">
+          <h1 className="text-xl font-bold text-gray-900">
+            📊 Générateur de Rapports
+          </h1>
+          <a 
+            href="/documentation" 
+            className="flex items-center px-3 py-2 text-sm font-medium text-green-600 hover:text-green-500 hover:bg-green-50 rounded-md transition-colors"
+          >
+            📚 Documentation
+          </a>
+        </div>
+      </div>
+
       {/* Informations Générales */}
       <div className="bg-white rounded-lg shadow-sm border p-6">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">

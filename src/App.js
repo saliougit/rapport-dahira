@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import Preview from './components/Preview';
 import SettingsModal from './components/SettingsModal';
+import Documentation from './components/Documentation';
 import { exportToPDF } from './utils/exportPdf';
 import { exportToExcel } from './utils/exportExcel';
 import { defaultRapport } from './data/defaultData';
 
-function App() {
+// Composant principal de l'application
+function MainApp() {
   const [rapport, setRapport] = useState(defaultRapport);
   const [showSettings, setShowSettings] = useState(false);
   const [editingKhassaida, setEditingKhassaida] = useState(null);
@@ -191,6 +194,19 @@ function App() {
         />
       )}
     </div>
+  );
+}
+
+// Composant Router principal avec navigation
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<MainApp />} />
+        <Route path="/documentation" element={<Documentation />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
   );
 }
 

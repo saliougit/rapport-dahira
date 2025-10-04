@@ -1,13 +1,13 @@
 # 📊 Générateur de Rapports Dahira
 
-[![Deploy](https://github.com/[USERNAME]/rapport-dahira/actions/workflows/deploy.yml/badge.svg)](https://github.com/[USERNAME]/rapport-dahira/actions/workflows/deploy.yml)
-[![CI](https://github.com/[USERNAME]/rapport-dahira/actions/workflows/ci.yml/badge.svg)](https://github.com/[USERNAME]/rapport-dahira/actions/workflows/ci.yml)
+[![Deploy](https://github.com/saliougit/rapport-dahira/actions/workflows/deploy.yml/badge.svg)](https://github.com/saliougit/rapport-dahira/actions/workflows/deploy.yml)
+[![CI](https://github.com/saliougit/rapport-dahira/actions/workflows/ci.yml/badge.svg)](https://github.com/saliougit/rapport-dahira/actions/workflows/ci.yml)
 
 Application web moderne pour créer et générer des rapports mensuels de répétition pour les Dahiras. Interface intuitive avec export PDF/Excel et personnalisation complète.
 
 ## 🚀 Demo Live
 
-**Application déployée :** [https://[USERNAME].github.io/rapport-dahira](https://[USERNAME].github.io/rapport-dahira)
+**Application déployée :** [https://saliougit.github.io/rapport-dahira](https://saliougit.github.io/rapport-dahira)
 
 ## ✨ Fonctionnalités
 
@@ -26,7 +26,7 @@ Application web moderne pour créer et générer des rapports mensuels de répé
 
 ```bash
 # Cloner le repository
-git clone https://github.com/[USERNAME]/rapport-dahira.git
+git clone https://github.com/saliougit/rapport-dahira.git
 cd rapport-dahira
 
 # Installer les dépendances
@@ -98,7 +98,7 @@ chmod +x deploy.sh
 
 ### URL de Déploiement
 ```
-https://[USERNAME].github.io/rapport-dahira
+https://saliougit.github.io/rapport-dahira
 ```
 
 ### Statut des Déploiements
@@ -147,7 +147,7 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 ## 👨‍💻 Auteur
 
 **[Votre Nom]**
-- GitHub: [@[USERNAME]](https://github.com/[USERNAME])
+- GitHub: [@saliougit](https://github.com/saliougit)
 - Email: [votre.email@example.com]
 
 ## 🙏 Remerciements

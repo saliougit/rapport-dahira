@@ -20,7 +20,7 @@
 
 ```bash
 # Cloner le repository
-git clone https://github.com/[USERNAME]/rapport-dahira.git
+git clone https://github.com/saliougit/rapport-dahira.git
 cd rapport-dahira
 
 # Installer les dépendances
@@ -34,7 +34,7 @@ npm start
 
 Une fois configuré, votre application sera accessible à :
 ```
-https://[USERNAME].github.io/rapport-dahira
+https://saliougit.github.io/rapport-dahira
 ```
 
 ## ⚙️ GitHub Actions
@@ -65,8 +65,8 @@ https://[USERNAME].github.io/rapport-dahira
 Ajoutez ces badges à votre README principal :
 
 ```markdown
-[![Deploy](https://github.com/[USERNAME]/rapport-dahira/actions/workflows/deploy.yml/badge.svg)](https://github.com/[USERNAME]/rapport-dahira/actions/workflows/deploy.yml)
-[![CI](https://github.com/[USERNAME]/rapport-dahira/actions/workflows/ci.yml/badge.svg)](https://github.com/[USERNAME]/rapport-dahira/actions/workflows/ci.yml)
+[![Deploy](https://github.com/saliougit/rapport-dahira/actions/workflows/deploy.yml/badge.svg)](https://github.com/saliougit/rapport-dahira/actions/workflows/deploy.yml)
+[![CI](https://github.com/saliougit/rapport-dahira/actions/workflows/ci.yml/badge.svg)](https://github.com/saliougit/rapport-dahira/actions/workflows/ci.yml)
 ```
 
 ## 💻 Déploiement Local
